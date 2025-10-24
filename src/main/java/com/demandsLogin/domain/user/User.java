@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.PrePersist;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -34,6 +35,9 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private User manager;
+
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> subordinates;
 
     @PrePersist
     private void setDefaultRole() {

@@ -5,6 +5,7 @@ import com.demandsLogin.domain.user.User;
 import com.demandsLogin.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setRole(newRole);
         userRepository.save(user);
+    }
+
+    public List<User> findSubordinates(String managerId) {
+        User manager = userRepository.findById(managerId)
+                .orElseThrow(() -> new RuntimeException("Manager not found"));
+        return manager.getSubordinates();
     }
 }
